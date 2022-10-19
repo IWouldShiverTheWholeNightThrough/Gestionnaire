@@ -1,71 +1,89 @@
+import java.util.ArrayList;
 
-public class GestionnaireDeContact { // on suppose qu'un nom apparait qu'une seule fois
-	
-	private Appareil[] appareils;
-	private Contact[] contacts;
+public class GestionnaireDeContact{
 
-	public GestionnaireDeContact() {
-		this.contacts = new Contact[0];
+	private ArrayList<Appareil> appareils;
+	private ArrayList<Contact> contacts;
+	private SerializeGestionnaire seriGest;
+
+	public GestionnaireDeContact(SerializeGestionnaire seriGest) {
+		this.seriGest = seriGest;
+		this.seriGest.setGestionnaire(this);
+		
+		try {
+		this.contacts = seriGest.deserializeContacts();
+		} catch(Exception e) {
+				System.out.println("exception = "+e);
+		}
 	}
 
 	public void afficheContacts() {
 
-		if(this.contacts.length == 0) {
+		if(this.contacts.size() == 0) {
 			System.out.println("Pas de contacts dans votre répertoire.");
 		} else {
 			System.out.println("Liste des contacts:\n");
-			for(int i = 0;i< this.contacts.length; i++) {
-				System.out.println("-> nom: "+contacts[i].getNom()+" , tél: "+ contacts[i].getTel());
+			for(int i = 0;i< this.contacts.size(); i++) {
+				System.out.print("-> ");
+				System.out.println(contacts.get(i));
 			}
+		}
+		
+		try {
+		seriGest.ecrireTxt();
+		} catch(Exception e) {
+			System.out.println("exception = "+e);
 		}
 	}
 
-	public void ajouteContact(Contact contact) {
-		Contact[] new_contacts;
-
-		int n = this.contacts.length;
-		new_contacts = new Contact[n + 1];
-		for(int i = 0; i<n; i++) {
-			new_contacts[i] = contacts[i];
+	public boolean ajouteContact(Contact contact) {
+		if(this.rechercheContactParTel(contact) == -1) {
+			this.contacts.add(contact);
+			
+			majContacts();
+			
+			return true;
 		}
-		new_contacts[contacts.length] = contact;
 
-		this.contacts = new_contacts;
+		return false;		
 	}
 
-	public void supprimeContact(String nom) {
-		int n = this.contacts.length;
-		int indice = rechercheContactParNom(nom);
+	public boolean supprimeContact(Contact contact) {
+		int indice = rechercheContactParTel(contact);
+		if(indice != -1) {
+			this.contacts.remove(this.contacts.get(indice));
+			
+			majContacts();
+			
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean modifieContact(Contact contact, Contact new_contact) {
+
+		int indice = rechercheContactParTel(contact);
 
 		if(indice != -1) {
-			Contact[] new_contacts = new Contact[n-1];
-			for(int i = 0; i < indice; i++) {
-				new_contacts[i] = this.contacts[i];
-			}
-			for(int i = indice; i<n-1;i++) {
-				new_contacts[i] = this.contacts[i+1];
-			}
-			this.contacts = new_contacts;
-		}	
+			this.contacts.get(indice).setNom(new_contact.getNom());
+			this.contacts.get(indice).setTel(new_contact.getTel());
+			
+			majContacts();
+			
+			return true;
+		}
+
+		return false;
 	}
 
-	public void modifieContact(String ancien_nom, String nouveau_nom,String nouveau_tel) {
+	public int rechercheContactParTel(Contact contact) {
 
-		int indice = rechercheContactParNom(ancien_nom);
-
-		if(indice != -1) {
-			this.contacts[indice].setNom(nouveau_nom);
-			this.contacts[indice].setTel(nouveau_tel);
-		}	
-	}
-
-	public int rechercheContactParNom(String nom) {
-
-		int n = this.contacts.length;
+		int n = this.contacts.size();
 		int i = 0;
 		int indice = -1;
 		while(indice == -1 && i<n) {
-			if(this.contacts[i].getNom().equals(nom)) {
+			if(this.contacts.get(i).getTel().equals(contact.getTel())) {
 				indice = i;
 				break;
 			}
@@ -74,18 +92,36 @@ public class GestionnaireDeContact { // on suppose qu'un nom apparait qu'une seu
 		return indice;
 	}
 	
-	public Appareil[] getAppareils() {
+	public void majContacts() {
+		try {
+			seriGest.enregistreContacts();
+		} catch(Exception e) {
+				System.out.println("exception = "+e);
+		}
+	}
+
+	public ArrayList<Appareil> getAppareils() {
 		return this.appareils;
 	}
-	
-	public void setAppareils(Appareil[] appareils) {
+
+	public void setAppareils(ArrayList<Appareil> appareils) {
 		this.appareils = appareils;
 	}
 
-	public Contact[] getContacts() {
+	public ArrayList<Contact> getContacts() {
 		return this.contacts;
 	}
-	public void setContacts(Contact[] contacts) {
+	public void setContacts(ArrayList<Contact> contacts) {
 		this.contacts = contacts;
 	}
+	
+	public SerializeGestionnaire getSeriGest() {
+		return this.seriGest;
+	}
+	public void setSeriGest(SerializeGestionnaire seriGest) {
+		this.seriGest = seriGest;
+	}
+
+
+
 }

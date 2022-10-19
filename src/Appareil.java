@@ -1,19 +1,26 @@
 
 public class Appareil {
-	private static GestionnaireDeContact gestionnaire;
+	private GestionnaireDeContact gestionnaire;
 	private String categorie;
 	
-	public Appareil(GestionnaireDeContact gestionnaire, String categorie) {
-		Appareil.gestionnaire = gestionnaire;
+	public Appareil() {
+		
+	}
+	
+	public Appareil(String categorie) {
 		this.categorie = categorie;
 	}
 	
+	public String toString() {
+		return this.categorie;
+	}
+	
 	public GestionnaireDeContact getGestionnaire() {
-		return Appareil.gestionnaire;
+		return this.gestionnaire;
 	}
 	
 	public void setGestionnaire(GestionnaireDeContact gestionnaire) {
-		Appareil.gestionnaire = gestionnaire;
+		this.gestionnaire = gestionnaire;
 	}	
 	
 	public String getCategorie() {
