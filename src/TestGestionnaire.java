@@ -94,7 +94,7 @@ public class TestGestionnaire {
 		
 	}
 	
-	public static void manipGestionnaire(GestionnaireDeContact gestionnaire, Scanner scan1, Scanner scan2) {
+	public static void manipGestionnaireMenu(GestionnaireDeContact gestionnaire, Scanner scan1, Scanner scan2) {
 
 		int entree;
 		do {
@@ -159,5 +159,19 @@ public class TestGestionnaire {
 			} 
 
 		} while(entree != 0);
+	}
+	
+	public static void manipGestionnaire(GestionnaireDeContact gestionnaire, Scanner scan1, Scanner scan2) {
+		Vue vue = new Vue();
+		vue.lancerVue();
+		
+		ControllerAjout controllerAjout = new ControllerAjout(gestionnaire, vue);
+		vue.getButtonAjout().addActionListener(controllerAjout);
+		
+		ControllerRecherche controllerRecherche = new ControllerRecherche(gestionnaire, vue);
+		vue.getButtonRecherche().addActionListener(controllerRecherche);
+		
+		ControllerActualisation controllerActualisation = new ControllerActualisation(gestionnaire, vue);
+		vue.getButtonActualisation().addActionListener(controllerActualisation);
 	}
 }
