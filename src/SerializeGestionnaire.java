@@ -9,8 +9,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class SerializeGestionnaire {
+public class SerializeGestionnaire extends Observable{
 	private String fichierDat;
 	private String fichierTxt;
 	private GestionnaireDeContact gestionnaire;
@@ -21,6 +22,8 @@ public class SerializeGestionnaire {
 	}
 	
 	public void enregistreContacts() throws IOException {
+		this.gestionnaire.afficheContacts();
+		
 		ObjectOutputStream out = null;
 		
 		try {
@@ -35,6 +38,8 @@ public class SerializeGestionnaire {
 	}
 	
 	public ArrayList<Contact> deserializeContacts() throws IOException{
+		this.gestionnaire.afficheContacts();
+		
 		
 		ArrayList<Contact> liste = new ArrayList<Contact>();
 
@@ -56,8 +61,12 @@ public class SerializeGestionnaire {
 	}
 	
 	public void ecrireTxt() throws IOException {
+		
+		this.setChanged();
+		this.notifyObservers();
+		
 		PrintWriter out = new PrintWriter(new FileWriter(this.fichierTxt));
-
+		
 		try {
 			for(Contact contact: this.gestionnaire.getContacts()) {
 				out.println(contact);

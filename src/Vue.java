@@ -15,9 +15,8 @@ public class Vue {
 	private JTextField txtfieldTel;
 	private JButton buttonAjout;
 	private JButton buttonRecherche;
-	private JLabel labelResult;
-	private JButton buttonActualisation;
-	private JPanel paneContact;
+	private MonJLabel labelResult;
+	private MonJPanel paneContact;
 
 	public void lancerVue() {
 		this.frame = new JFrame("Gestionnaire de Contacts");
@@ -26,18 +25,17 @@ public class Vue {
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		this.txtfieldNom = new JTextField("Entrez un nom");
+		this.txtfieldNom.setColumns(20);
 		this.txtfieldTel = new JTextField("Entrez un tél");
+		this.txtfieldTel.setColumns(20);
 		this.buttonAjout = new JButton("Ajouter un contact");
 		this.buttonRecherche = new JButton("Rechercher le tél");
-		this.labelResult = new JLabel("Rien à afficher");
+		this.labelResult = new MonJLabel("Rien à afficher");
 		
-		this.buttonActualisation = new JButton("Refresh");
-		
-		this.paneContact = new JPanel();
+		this.paneContact = new MonJPanel(this);
 		this.paneContact.setSize(300,300);
 		this.paneContact.setBorder(BorderFactory.createLineBorder(Color.black));
-		
-		this.frame.getContentPane().add(buttonActualisation);
+
 		this.frame.getContentPane().add(paneContact);
 		this.frame.getContentPane().add(txtfieldNom);
 		this.frame.getContentPane().add(txtfieldTel);
@@ -45,7 +43,6 @@ public class Vue {
 		this.frame.getContentPane().add(buttonRecherche);
 		this.frame.getContentPane().add(labelResult);
 		
-		this.frame.setVisible(true);
 	}
 	
 	public JFrame getFrame() {
@@ -83,27 +80,19 @@ public class Vue {
 		this.buttonRecherche = buttonRecherche;
 	}
 	
-	public JLabel getLabelResult() {
+	public MonJLabel getLabelResult() {
 		return this.labelResult;
 	}
-	public void setLabelResult(JLabel labelResult) {
+	public void setLabelResult(MonJLabel labelResult) {
 		this.labelResult = labelResult;
 	}
 	
-	public JButton getButtonActualisation() {
-		return this.buttonActualisation	;
-	}
-	public void setbuttonActualisation(JButton buttonActualisation) {
-		this.buttonActualisation = buttonActualisation;
-	}
 	
-	
-	public JPanel getPaneContact() {
+	public MonJPanel getPaneContact() {
 		return this.paneContact;
 	}
-	public void setPaneContact(JPanel paneContact) {
+	public void setPaneContact(MonJPanel paneContact) {
 		this.paneContact = paneContact;
 	}
 	
 }
-

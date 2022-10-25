@@ -1,6 +1,7 @@
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class GestionnaireDeContact{
+public class GestionnaireDeContact extends Observable{
 
 	private ArrayList<Appareil> appareils;
 	private ArrayList<Contact> contacts;
@@ -19,16 +20,6 @@ public class GestionnaireDeContact{
 
 	public void afficheContacts() {
 
-		if(this.contacts.size() == 0) {
-			System.out.println("Pas de contacts dans votre répertoire.");
-		} else {
-			System.out.println("Liste des contacts:\n");
-			for(int i = 0;i< this.contacts.size(); i++) {
-				System.out.print("-> ");
-				System.out.println(contacts.get(i));
-			}
-		}
-		
 		try {
 		seriGest.ecrireTxt();
 		} catch(Exception e) {
@@ -37,32 +28,43 @@ public class GestionnaireDeContact{
 	}
 
 	public boolean ajouteContact(Contact contact) {
+		this.setChanged();
 		if(this.rechercheContactParTel(contact) == -1) {
 			this.contacts.add(contact);
 			
 			majContacts();
 			
+			
+			this.notifyObservers("Contact Ajouté");
+			
 			return true;
 		}
 
+		this.notifyObservers("Contact déjà existant");
 		return false;		
 	}
 
 	public boolean supprimeContact(Contact contact) {
+		this.setChanged();
 		int indice = rechercheContactParTel(contact);
 		if(indice != -1) {
 			this.contacts.remove(this.contacts.get(indice));
 			
 			majContacts();
 			
+			this.notifyObservers("Contact supprimé");
 			return true;
 		} else {
+			
+			this.notifyObservers("Contact non-listé"); // non necessaire mais bon
 			return false;
 		}
 	}
 
 	public boolean modifieContact(Contact contact, Contact new_contact) {
 
+		this.setChanged();
+		
 		int indice = rechercheContactParTel(contact);
 
 		if(indice != -1) {
@@ -71,9 +73,12 @@ public class GestionnaireDeContact{
 			
 			majContacts();
 			
+			this.notifyObservers("Contact modifié");
+			
 			return true;
 		}
 
+		this.notifyObservers("Contact non-listé"); // non necessaire mais bon
 		return false;
 	}
 
@@ -89,6 +94,7 @@ public class GestionnaireDeContact{
 			}
 			i++;
 		}
+		
 		return indice;
 	}
 	

@@ -18,14 +18,9 @@ public class ControllerSuppression implements ActionListener{
 		// TODO Auto-generated method stub
 		for(int i =0;i<this.vue.getPaneContact().getComponentCount();i++) {
 			if (e.getSource() == ((JPanel) this.vue.getPaneContact().getComponent(i)).getComponent(1) ) {
-				if( this.gestionnaire.supprimeContact(this.gestionnaire.getContacts().get(i)) ) {
-					this.vue.getLabelResult().setText("Contact supprimé");
-				} else {
-					this.vue.getLabelResult().setText("Contact non-listé"); // un peu con non ?
-				}
+				this.gestionnaire.supprimeContact(this.gestionnaire.getContacts().get(i));
 			}
 		}
-		this.gestionnaire.afficheContacts();
 	}
 	
 	public GestionnaireDeContact getGestionnaire() {

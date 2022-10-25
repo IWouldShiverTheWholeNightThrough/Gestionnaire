@@ -15,12 +15,7 @@ public class ControllerAjout implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Contact contact = new Contact(this.vue.getTxtfieldNom().getText(), this.vue.getTxtfieldTel().getText());
-		if( gestionnaire.ajouteContact(contact) ) {
-			this.vue.getLabelResult().setText("Contact ajouté");
-		} else {
-			this.vue.getLabelResult().setText("Contact déjà existant");
-		}
-		this.gestionnaire.afficheContacts();
+		gestionnaire.ajouteContact(contact);
 	}
 	
 	public GestionnaireDeContact getGestionnaire() {

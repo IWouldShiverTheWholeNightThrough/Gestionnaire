@@ -16,6 +16,7 @@ public class ControllerRecherche implements ActionListener{
 		// TODO Auto-generated method stub
 		Contact contact = new Contact(this.vue.getTxtfieldNom().getText(), this.vue.getTxtfieldTel().getText());
 		int result = this.gestionnaire.rechercheContactParTel(contact);
+		
 		if(result == -1) {
 			this.vue.getLabelResult().setText(contact.getTel() + " n'est pas connu");
 		} else {
@@ -31,7 +32,6 @@ public class ControllerRecherche implements ActionListener{
 		this.gestionnaire = gestionnaire;
 	}
 	
-	
 	public Vue getVue() {
 		return this.vue;
 	}
@@ -39,5 +39,4 @@ public class ControllerRecherche implements ActionListener{
 	public void setVue(Vue vue) {
 		this.vue = vue;
 	}
-	
 }

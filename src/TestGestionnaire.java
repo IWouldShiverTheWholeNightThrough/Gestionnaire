@@ -1,5 +1,9 @@
 import java.util.Scanner;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 public class TestGestionnaire {
 
 	public static void main(String[] args) {
@@ -94,73 +98,6 @@ public class TestGestionnaire {
 		
 	}
 	
-	public static void manipGestionnaireMenu(GestionnaireDeContact gestionnaire, Scanner scan1, Scanner scan2) {
-
-		int entree;
-		do {
-			System.out.println();
-			System.out.println("\nMenu gestionnaire: \n0 = sortir du menu\n1 = afficher tous les contacts\n2 = ajouter contact\n3 = supprimer contact\n4 = modif contact\n5 = chercher contact");
-
-			entree = scan1.nextInt();
-			Contact contact = new Contact();
-			switch(entree) {
-			case 0:
-				System.out.println("Bye !");
-				break;
-			case 1:
-				gestionnaire.afficheContacts();
-				break;
-			case 2:
-				System.out.println("Entrez un nom puis un tél");
-				contact.setNom(scan2.next());
-				contact.setTel(scan2.next());
-
-				if( gestionnaire.ajouteContact(contact) ) {
-					System.out.println("Contact ajouté");
-				} else {
-					System.out.println("Contact déjà existant");
-				}
-
-				break;
-			case 3:
-				System.out.println("Entrez un tel:");
-				contact.setTel(scan2.next());
-				if( gestionnaire.supprimeContact(contact) ) {
-					System.out.println("Contact supprimé");
-				} else {
-					System.out.println("Contact non-listé");
-				}
-				break;
-			case 4:
-				System.out.println("Entrez un tel à modifier puis le nouveau nom et le nouveau téléphone:");
-
-				Contact contact2 = new Contact();
-
-				contact.setTel( scan2.next() );
-				contact2.setNom( scan2.next() );
-				contact2.setTel( scan2.next());
-				boolean resul = gestionnaire.modifieContact(contact, contact2);
-				if(resul) {
-					System.out.println("Contact modifié");
-				} else {
-					System.out.println("Contact non-listé");
-				}
-				break;
-			case 5:
-				System.out.println("Entrez un tel:");
-				contact.setTel( scan2.next() );
-				int result = gestionnaire.rechercheContactParTel(contact);
-				if(result == -1) {
-					System.out.println(contact.getTel() + " n'est pas connu");
-				} else {
-					System.out.println(contact.getTel() + " appartient à "+ gestionnaire.getContacts().get(result).getNom());
-				}
-				break;
-			} 
-
-		} while(entree != 0);
-	}
-	
 	public static void manipGestionnaire(GestionnaireDeContact gestionnaire, Scanner scan1, Scanner scan2) {
 		Vue vue = new Vue();
 		vue.lancerVue();
@@ -171,7 +108,28 @@ public class TestGestionnaire {
 		ControllerRecherche controllerRecherche = new ControllerRecherche(gestionnaire, vue);
 		vue.getButtonRecherche().addActionListener(controllerRecherche);
 		
-		ControllerActualisation controllerActualisation = new ControllerActualisation(gestionnaire, vue);
-		vue.getButtonActualisation().addActionListener(controllerActualisation);
+		gestionnaire.addObserver(vue.getLabelResult());
+		gestionnaire.getSeriGest().addObserver(vue.getPaneContact());
+		
+		for(Contact contact: gestionnaire.getContacts()) {
+			JPanel pane = new JPanel();
+			JLabel label = new JLabel(contact.toString());
+			JButton buttonSupp = new JButton("Supprimer");
+			ControllerSuppression controllerSuppression = new ControllerSuppression(gestionnaire, vue);
+			buttonSupp.addActionListener(controllerSuppression);
+			
+			JButton buttonModif = new JButton("Modifier");
+			ControllerModif controllerModif = new ControllerModif(gestionnaire, vue);
+			buttonModif.addActionListener(controllerModif);
+			pane.add(label);
+			pane.add(buttonSupp);
+			pane.add(buttonModif);
+			vue.getPaneContact().add(pane);
+		}
+		
+		
+		vue.getFrame().pack();
+		vue.getFrame().setVisible(true);
+		
 	}
 }

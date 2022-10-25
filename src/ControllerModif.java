@@ -19,14 +19,9 @@ public class ControllerModif implements ActionListener{
 		for(int i =0;i<this.vue.getPaneContact().getComponentCount();i++) {
 			if (e.getSource() == ((JPanel) this.vue.getPaneContact().getComponent(i)).getComponent(2) ) {
 				Contact contact = new Contact(this.vue.getTxtfieldNom().getText(), this.vue.getTxtfieldTel().getText());
-				if(this.gestionnaire.modifieContact(this.gestionnaire.getContacts().get(i), contact)) {
-					this.vue.getLabelResult().setText("Contact modifié");
-				} else {
-					this.vue.getLabelResult().setText("Contact non-Listé"); // un peu con non ?
-				}
+				this.gestionnaire.modifieContact(this.gestionnaire.getContacts().get(i), contact);
 			}
 		}
-		this.gestionnaire.afficheContacts();
 	}
 	
 	public GestionnaireDeContact getGestionnaire() {
