@@ -1,9 +1,20 @@
+package vue;
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+
+import controller.ControllerModif;
+import controller.ControllerSuppression;
+import model.Contact;
+import model.SerializeGestionnaire;
 
 public class MonJPanel extends JPanel implements Observer{
 	
@@ -23,7 +34,9 @@ public class MonJPanel extends JPanel implements Observer{
 		this.removeAll();
 		
 		for(Contact contact: seriGest.getGestionnaire().getContacts()) {
-			JPanel pane = new JPanel();
+			ContactJPanel pane = new ContactJPanel();
+			pane.setBorder(BorderFactory.createLineBorder(Color.black));
+			
 			JLabel label = new JLabel(contact.toString());
 			JButton buttonSupp = new JButton("Supprimer");
 			ControllerSuppression controllerSuppression = new ControllerSuppression(seriGest.getGestionnaire(), this.vue);
@@ -35,9 +48,10 @@ public class MonJPanel extends JPanel implements Observer{
 			pane.add(label);
 			pane.add(buttonSupp);
 			pane.add(buttonModif);
+			
 			this.vue.getPaneContact().add(pane);
 		}
-	
+		this.vue.getFrame().pack();
 		this.vue.getFrame().setVisible(true);
 	}
 	

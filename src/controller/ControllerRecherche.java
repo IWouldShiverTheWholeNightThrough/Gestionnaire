@@ -1,5 +1,10 @@
+package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import model.Contact;
+import model.GestionnaireDeContact;
+import vue.Vue;
 
 public class ControllerRecherche implements ActionListener{
 

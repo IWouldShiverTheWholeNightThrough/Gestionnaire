@@ -1,8 +1,23 @@
+
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.util.Scanner;
+
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+
+import controller.ControllerAjout;
+import controller.ControllerModif;
+import controller.ControllerRecherche;
+import controller.ControllerSuppression;
+import model.Appareil;
+import model.Contact;
+import model.GestionnaireDeContact;
+import model.GestionnaireUtilisateurs;
+import model.Utilisateur;
+import vue.ContactJPanel;
+import vue.Vue;
 
 public class TestGestionnaire {
 
@@ -112,7 +127,8 @@ public class TestGestionnaire {
 		gestionnaire.getSeriGest().addObserver(vue.getPaneContact());
 		
 		for(Contact contact: gestionnaire.getContacts()) {
-			JPanel pane = new JPanel();
+			ContactJPanel pane = new ContactJPanel();
+			
 			JLabel label = new JLabel(contact.toString());
 			JButton buttonSupp = new JButton("Supprimer");
 			ControllerSuppression controllerSuppression = new ControllerSuppression(gestionnaire, vue);
@@ -124,6 +140,7 @@ public class TestGestionnaire {
 			pane.add(label);
 			pane.add(buttonSupp);
 			pane.add(buttonModif);
+			
 			vue.getPaneContact().add(pane);
 		}
 		

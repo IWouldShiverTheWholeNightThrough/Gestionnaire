@@ -1,3 +1,4 @@
+package model;
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -10,12 +11,12 @@ public class GestionnaireDeContact extends Observable{
 	public GestionnaireDeContact(SerializeGestionnaire seriGest) {
 		this.seriGest = seriGest;
 		this.seriGest.setGestionnaire(this);
-		
 		try {
 		this.contacts = seriGest.deserializeContacts();
 		} catch(Exception e) {
 				System.out.println("exception = "+e);
 		}
+		this.afficheContacts();
 	}
 
 	public void afficheContacts() {

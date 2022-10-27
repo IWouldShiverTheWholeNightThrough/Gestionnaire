@@ -1,3 +1,4 @@
+package model;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,7 +39,6 @@ public class SerializeGestionnaire extends Observable{
 	}
 	
 	public ArrayList<Contact> deserializeContacts() throws IOException{
-		this.gestionnaire.afficheContacts();
 		
 		
 		ArrayList<Contact> liste = new ArrayList<Contact>();

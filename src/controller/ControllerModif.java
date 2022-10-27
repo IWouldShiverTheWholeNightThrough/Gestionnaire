@@ -1,7 +1,12 @@
+package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
+
+import model.Contact;
+import model.GestionnaireDeContact;
+import vue.Vue;
 
 public class ControllerModif implements ActionListener{
 
