@@ -1,9 +1,10 @@
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.util.Scanner;
 
-
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -131,6 +132,7 @@ public class TestGestionnaire {
 			
 			JLabel label = new JLabel(contact.toString());
 			JButton buttonSupp = new JButton("Supprimer");
+			
 			ControllerSuppression controllerSuppression = new ControllerSuppression(gestionnaire, vue);
 			buttonSupp.addActionListener(controllerSuppression);
 			

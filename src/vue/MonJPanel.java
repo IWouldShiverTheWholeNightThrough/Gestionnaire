@@ -35,12 +35,13 @@ public class MonJPanel extends JPanel implements Observer{
 		
 		for(Contact contact: seriGest.getGestionnaire().getContacts()) {
 			ContactJPanel pane = new ContactJPanel();
-			pane.setBorder(BorderFactory.createLineBorder(Color.black));
 			
 			JLabel label = new JLabel(contact.toString());
 			JButton buttonSupp = new JButton("Supprimer");
 			ControllerSuppression controllerSuppression = new ControllerSuppression(seriGest.getGestionnaire(), this.vue);
 			buttonSupp.addActionListener(controllerSuppression);
+			
+			
 			
 			JButton buttonModif = new JButton("Modifier");
 			ControllerModif controllerModif = new ControllerModif(seriGest.getGestionnaire(), this.vue);
