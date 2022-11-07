@@ -1,20 +1,16 @@
 package vue;
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 import controller.ControllerModif;
 import controller.ControllerSuppression;
+import daoImplementation.DaoImplementationModel;
 import model.Contact;
-import model.SerializeGestionnaire;
 
 public class MonJPanel extends JPanel implements Observer{
 	
@@ -30,21 +26,21 @@ public class MonJPanel extends JPanel implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
-		SerializeGestionnaire seriGest = (SerializeGestionnaire) o;
+		
+		DaoImplementationModel dao = (DaoImplementationModel) o;
+		
 		this.removeAll();
 		
-		for(Contact contact: seriGest.getGestionnaire().getContacts()) {
+		for(Contact contact: dao.getGestionnaire().getContacts()) {
 			ContactJPanel pane = new ContactJPanel();
 			
 			JLabel label = new JLabel(contact.toString());
 			JButton buttonSupp = new JButton("Supprimer");
-			ControllerSuppression controllerSuppression = new ControllerSuppression(seriGest.getGestionnaire(), this.vue);
+			ControllerSuppression controllerSuppression = new ControllerSuppression(dao.getGestionnaire(), this.vue, dao);
 			buttonSupp.addActionListener(controllerSuppression);
 			
-			
-			
 			JButton buttonModif = new JButton("Modifier");
-			ControllerModif controllerModif = new ControllerModif(seriGest.getGestionnaire(), this.vue);
+			ControllerModif controllerModif = new ControllerModif(dao.getGestionnaire(), this.vue, dao);
 			buttonModif.addActionListener(controllerModif);
 			pane.add(label);
 			pane.add(buttonSupp);
@@ -54,6 +50,7 @@ public class MonJPanel extends JPanel implements Observer{
 		}
 		this.vue.getFrame().pack();
 		this.vue.getFrame().setVisible(true);
+		
 	}
 	
 	public Vue getVue() {

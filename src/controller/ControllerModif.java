@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
+import daoImplementation.DaoImplementationModel;
 import model.Contact;
 import model.GestionnaireDeContact;
 import vue.Vue;
@@ -12,10 +13,12 @@ public class ControllerModif implements ActionListener{
 
 	private GestionnaireDeContact gestionnaire;
 	private Vue vue;
+	private DaoImplementationModel dao;
 	
-	public ControllerModif(GestionnaireDeContact gestionnaire, Vue vue) {
+	public ControllerModif(GestionnaireDeContact gestionnaire, Vue vue, DaoImplementationModel dao) {
 		this.gestionnaire = gestionnaire;
 		this.vue = vue;
+		this.dao = dao;
 	}
 	
 	@Override
@@ -24,7 +27,10 @@ public class ControllerModif implements ActionListener{
 		for(int i =0;i<this.vue.getPaneContact().getComponentCount();i++) {
 			if (e.getSource() == ((JPanel) this.vue.getPaneContact().getComponent(i)).getComponent(2) ) {
 				Contact contact = new Contact(this.vue.getTxtfieldNom().getText(), this.vue.getTxtfieldTel().getText());
-				this.gestionnaire.modifieContact(this.gestionnaire.getContacts().get(i), contact);
+				contact.setId(this.gestionnaire.getContacts().get(i).getId());
+				if(this.gestionnaire.modifieContact(this.gestionnaire.getContacts().get(i), contact)) {
+					this.dao.modifierContact(contact);
+				}
 			}
 		}
 	}
@@ -45,4 +51,14 @@ public class ControllerModif implements ActionListener{
 	public void setVue(Vue vue) {
 		this.vue = vue;
 	}
+
+	public DaoImplementationModel getDao() {
+		return dao;
+	}
+
+	public void setDao(DaoImplementationModel dao) {
+		this.dao = dao;
+	}
+	
+	
 }

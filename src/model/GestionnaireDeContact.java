@@ -6,35 +6,17 @@ public class GestionnaireDeContact extends Observable{
 
 	private ArrayList<Appareil> appareils;
 	private ArrayList<Contact> contacts;
-	private SerializeGestionnaire seriGest;
 
-	public GestionnaireDeContact(SerializeGestionnaire seriGest) {
-		this.seriGest = seriGest;
-		this.seriGest.setGestionnaire(this);
-		try {
-		this.contacts = seriGest.deserializeContacts();
-		} catch(Exception e) {
-				System.out.println("exception = "+e);
-		}
-		this.afficheContacts();
-	}
-
-	public void afficheContacts() {
-
-		try {
-		seriGest.ecrireTxt();
-		} catch(Exception e) {
-			System.out.println("exception = "+e);
-		}
+	public GestionnaireDeContact() {
+		this.contacts = new ArrayList<Contact>();
+		// set les contacts au contenu de la base de données
+		// créer une nouvelle instance de la dao, 
 	}
 
 	public boolean ajouteContact(Contact contact) {
 		this.setChanged();
 		if(this.rechercheContactParTel(contact) == -1) {
-			this.contacts.add(contact);
-			
-			majContacts();
-			
+			this.contacts.add(contact);		
 			
 			this.notifyObservers("Contact Ajouté");
 			
@@ -51,8 +33,6 @@ public class GestionnaireDeContact extends Observable{
 		if(indice != -1) {
 			this.contacts.remove(this.contacts.get(indice));
 			
-			majContacts();
-			
 			this.notifyObservers("Contact supprimé");
 			return true;
 		} else {
@@ -68,18 +48,25 @@ public class GestionnaireDeContact extends Observable{
 		
 		int indice = rechercheContactParTel(contact);
 
-		if(indice != -1) {
+		if(indice != -1 ) {
+			
+			if(! contact.getTel().equals(new_contact.getTel()))
+			{
+				if(rechercheContactParTel(new_contact) != -1) {
+					this.notifyObservers("Tél déjà existant");
+					return false;
+				}
+			}
+			
 			this.contacts.get(indice).setNom(new_contact.getNom());
 			this.contacts.get(indice).setTel(new_contact.getTel());
-			
-			majContacts();
 			
 			this.notifyObservers("Contact modifié");
 			
 			return true;
 		}
 
-		this.notifyObservers("Contact non-listé"); // non necessaire mais bon
+		this.notifyObservers("Contact non-listé"); // ne devrait jamais arriver 
 		return false;
 	}
 
@@ -99,13 +86,6 @@ public class GestionnaireDeContact extends Observable{
 		return indice;
 	}
 	
-	public void majContacts() {
-		try {
-			seriGest.enregistreContacts();
-		} catch(Exception e) {
-				System.out.println("exception = "+e);
-		}
-	}
 
 	public ArrayList<Appareil> getAppareils() {
 		return this.appareils;
@@ -121,14 +101,5 @@ public class GestionnaireDeContact extends Observable{
 	public void setContacts(ArrayList<Contact> contacts) {
 		this.contacts = contacts;
 	}
-	
-	public SerializeGestionnaire getSeriGest() {
-		return this.seriGest;
-	}
-	public void setSeriGest(SerializeGestionnaire seriGest) {
-		this.seriGest = seriGest;
-	}
-
-
 
 }

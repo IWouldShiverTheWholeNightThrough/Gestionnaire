@@ -1,12 +1,28 @@
 package model;
-import java.io.Serializable;
 
-public class Contact  implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private String nom;
-	private String tel;
-	private GestionnaireDeContact gestionnaire;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "contact")
+public class Contact  {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private int id;
+	
+	@Column(name ="name")
+	private String nom;
+	
+	@Column(name = "tel")
+	private String tel;
+	
+
 	public Contact() {
 	}
 	
@@ -34,10 +50,11 @@ public class Contact  implements Serializable {
 		this.tel = tel;
 	}
 	
-	public GestionnaireDeContact getGestionnaire() {
-		return this.gestionnaire;
+	public int getId() {
+		return id;
 	}
-	public void setgestionnaire(GestionnaireDeContact gestionnaire) {
-		this.gestionnaire = gestionnaire;
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

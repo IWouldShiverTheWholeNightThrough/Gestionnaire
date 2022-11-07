@@ -2,6 +2,7 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import daoImplementation.DaoImplementationModel;
 import model.Contact;
 import model.GestionnaireDeContact;
 import vue.Vue;
@@ -10,17 +11,23 @@ public class ControllerAjout implements ActionListener{
 
 	private GestionnaireDeContact gestionnaire;
 	private Vue vue;
+	private DaoImplementationModel dao;
 	
-	public ControllerAjout(GestionnaireDeContact gestionnaire, Vue vue) {
+	public ControllerAjout(GestionnaireDeContact gestionnaire, Vue vue, DaoImplementationModel dao) {
 		this.gestionnaire = gestionnaire;
 		this.vue = vue;
+		this.dao = dao;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Contact contact = new Contact(this.vue.getTxtfieldNom().getText(), this.vue.getTxtfieldTel().getText());
-		gestionnaire.ajouteContact(contact);
+
+		if(gestionnaire.ajouteContact(contact)) {
+			this.dao.ajouterContact(contact);
+		}
+		
 	}
 	
 	public GestionnaireDeContact getGestionnaire() {
@@ -39,5 +46,15 @@ public class ControllerAjout implements ActionListener{
 	public void setVue(Vue vue) {
 		this.vue = vue;
 	}
+
+	public DaoImplementationModel getDao() {
+		return dao;
+	}
+
+	public void setDao(DaoImplementationModel dao) {
+		this.dao = dao;
+	}
+	
+	
 	
 }

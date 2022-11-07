@@ -1,17 +1,23 @@
 package model;
 import java.util.ArrayList;
 
+import daoImplementation.DaoImplementationModel;
+
 public class Utilisateur {
 	private GestionnaireUtilisateurs gestionnaireUser;
 	private GestionnaireDeContact gestionnaire;
 	private ArrayList<Appareil> appareils;
 	private String id;
+	private DaoImplementationModel dao;
 
 	public Utilisateur(String id) {
 		this.id = id;
 		this.appareils = new ArrayList<Appareil>();
-		this.gestionnaire = new GestionnaireDeContact(new SerializeGestionnaire("fichier_"+id+".dat", "fichier_"+id+".txt"));
+		this.gestionnaire = new GestionnaireDeContact();
+		this.dao = new DaoImplementationModel(this.gestionnaire);
 	}
+	
+	
 
 	public String toString() {
 		return this.id;
@@ -82,6 +88,14 @@ public class Utilisateur {
 	}
 	public void setGestionnaireUser(GestionnaireUtilisateurs gestionnaireUser) {
 		this.gestionnaireUser = gestionnaireUser;
+	}
+	
+	public DaoImplementationModel getDao() {
+		return dao;
+	}
+
+	public void setDao(DaoImplementationModel dao) {
+		this.dao = dao;
 	}
 
 }
