@@ -1,7 +1,10 @@
 package model;
 import java.util.ArrayList;
 
+import controller.ControllerAjout;
+import controller.ControllerRecherche;
 import daoImplementation.DaoImplementationModel;
+import vue.Vue;
 
 public class Utilisateur {
 	private GestionnaireUtilisateurs gestionnaireUser;
@@ -13,10 +16,30 @@ public class Utilisateur {
 	public Utilisateur(String id) {
 		this.id = id;
 		this.appareils = new ArrayList<Appareil>();
-		this.gestionnaire = new GestionnaireDeContact();
-		this.dao = new DaoImplementationModel(this.gestionnaire);
 	}
 	
+	
+	public void login() {
+		this.gestionnaire = new GestionnaireDeContact();
+		this.dao = new DaoImplementationModel(this.gestionnaire);
+		Vue vue = new Vue();
+		vue.lancerVue();
+		
+		this.dao.addObserver(vue.getPaneContact());
+		this.dao.notifyObservers();
+
+		ControllerAjout controllerAjout = new ControllerAjout(this.gestionnaire, vue, this.dao);
+		vue.getButtonAjout().addActionListener(controllerAjout);
+
+		ControllerRecherche controllerRecherche = new ControllerRecherche(this.gestionnaire, vue, this.dao);
+		vue.getButtonRecherche().addActionListener(controllerRecherche);
+
+		this.gestionnaire.addObserver(vue.getLabelResult());
+
+
+		vue.getFrame().pack();
+		vue.getFrame().setVisible(true);
+	}
 	
 
 	public String toString() {
