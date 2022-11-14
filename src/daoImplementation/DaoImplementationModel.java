@@ -3,6 +3,8 @@ package daoImplementation;
 import java.util.List;
 import java.util.Observable;
 
+import javax.persistence.Query;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -10,25 +12,30 @@ import org.hibernate.cfg.Configuration;
 import dao.DaoModel;
 import model.Contact;
 import model.GestionnaireDeContact;
+import model.Utilisateur;
 
 public class DaoImplementationModel extends Observable implements DaoModel {
 
 	private GestionnaireDeContact gestionnaire;
 	private SessionFactory factory;
 
-	public DaoImplementationModel(GestionnaireDeContact gestionnaire) {
+	public DaoImplementationModel(GestionnaireDeContact gestionnaire, Utilisateur user) {
 		this.gestionnaire = gestionnaire;
 
 		try {
 			this.factory = new Configuration().configure("hibernate.cfg.xml")
 					.addAnnotatedClass(Contact.class)
+					.addAnnotatedClass(Utilisateur.class)
 					.buildSessionFactory();
 			Session session = factory.getCurrentSession();
 			session.beginTransaction();
-			List<Contact> contacts = session.createQuery("from Contact").getResultList();
+			Query query = session.createQuery("select c from Contact c", Contact.class);
+			// where user_id ='"+user.getId()+"'", Contact.class); à remettre pour la suite ...
+			List<Contact> contacts = query.getResultList();
 			for(Contact contact: contacts) {
 				this.gestionnaire.getContacts().add(contact);
 			}
+			
 			session.getTransaction().commit();
 			this.setChanged();
 		} catch(Exception e) {
@@ -113,7 +120,4 @@ public class DaoImplementationModel extends Observable implements DaoModel {
 	public void setFactory(SessionFactory factory) {
 		this.factory = factory;
 	}
-
-
-
 }

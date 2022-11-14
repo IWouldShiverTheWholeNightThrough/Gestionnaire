@@ -17,9 +17,11 @@ public class Vue {
 	private JTextField txtfieldTel;
 	private JButton buttonAjout;
 	private JButton buttonRecherche;
+	private JButton buttonParcourir;
 	private MonJLabel labelResult;
 	private MonJPanel paneContact;
 	private JPanel paneInput;
+	private byte[] image;
 
 	public void lancerVue() {
 		this.frame = new JFrame("Gestionnaire de Contacts");
@@ -48,10 +50,10 @@ public class Vue {
 		gBC.gridy = 0;
 		this.paneInput.add(txtfieldTel, gBC);
 		
-		this.labelResult = new MonJLabel("Rien à afficher", this);
+		this.buttonParcourir = new JButton("Parcourir");
 		gBC.gridx = 2;
-        gBC.gridy = 0;
-		this.paneInput.add(labelResult, gBC);
+		gBC.gridy = 0;
+		this.paneInput.add(buttonParcourir, gBC);
 
 		this.buttonAjout = new JButton("Ajouter un contact");
 		gBC.gridx = 0;
@@ -62,6 +64,11 @@ public class Vue {
         gBC.gridx = 1;
         gBC.gridy = 1;
 		this.paneInput.add(buttonRecherche, gBC);
+		
+		this.labelResult = new MonJLabel("Rien à afficher", this);
+		gBC.gridx = 2;
+        gBC.gridy = 1;
+		this.paneInput.add(labelResult, gBC);
 
 		this.paneContact = new MonJPanel(this);
 		this.paneContact.setLayout(new GridLayout(0,1));
@@ -131,4 +138,22 @@ public class Vue {
 		this.paneInput = paneInput;
 	}
 
+	public JButton getButtonParcourir() {
+		return buttonParcourir;
+	}
+
+	public void setButtonParcourir(JButton buttonParcourir) {
+		this.buttonParcourir = buttonParcourir;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+	
+	
 }

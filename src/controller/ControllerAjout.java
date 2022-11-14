@@ -23,9 +23,10 @@ public class ControllerAjout implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Contact contact = new Contact(this.vue.getTxtfieldNom().getText(), this.vue.getTxtfieldTel().getText());
-
+		contact.setImage(this.vue.getImage());
 		if(gestionnaire.ajouteContact(contact)) {
 			this.dao.ajouterContact(contact);
+			this.vue.setImage(null);
 		}
 		
 	}

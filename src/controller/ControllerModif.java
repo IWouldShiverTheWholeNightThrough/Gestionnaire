@@ -27,9 +27,15 @@ public class ControllerModif implements ActionListener{
 		for(int i =0;i<this.vue.getPaneContact().getComponentCount();i++) {
 			if (e.getSource() == ((JPanel) this.vue.getPaneContact().getComponent(i)).getComponent(2) ) {
 				Contact contact = new Contact(this.vue.getTxtfieldNom().getText(), this.vue.getTxtfieldTel().getText());
-				contact.setId(this.gestionnaire.getContacts().get(i).getId());
+
 				if(this.gestionnaire.modifieContact(this.gestionnaire.getContacts().get(i), contact)) {
+					contact.setId(this.gestionnaire.getContacts().get(i).getId());
+					contact.setImage(this.vue.getImage());
+					
+					this.gestionnaire.getContacts().get(i).setImage(this.vue.getImage());
+					
 					this.dao.modifierContact(contact);
+					this.vue.setImage(null);
 				}
 			}
 		}
@@ -59,6 +65,4 @@ public class ControllerModif implements ActionListener{
 	public void setDao(DaoImplementationModel dao) {
 		this.dao = dao;
 	}
-	
-	
 }

@@ -23,7 +23,7 @@ public class GestionnaireUtilisateurs {
 	}
 	
 	public boolean creerUser(Utilisateur user) {
-		if(this.rechercheUserparId(user) == -1) {
+		if(this.rechercheUserparName(user) == -1) {
 			this.users.add(user);
 			return true;
 		}
@@ -31,13 +31,13 @@ public class GestionnaireUtilisateurs {
 		return false;		
 	}
 	
-	public int rechercheUserparId(Utilisateur user) {
+	public int rechercheUserparName(Utilisateur user) {
 		
 		int n = this.users.size();
 		int i = 0;
 		int indice = -1;
 		while(indice == -1 && i<n) {
-			if(this.users.get(i).getId().equals(user.getId())) {
+			if(this.users.get(i).getName().equals(user.getName())) {
 				indice = i;
 				break;
 			}
