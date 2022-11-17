@@ -6,11 +6,11 @@ public class GestionnaireDeContact extends Observable{
 
 	private ArrayList<Appareil> appareils;
 	private ArrayList<Contact> contacts;
+	private Utilisateur user;
 
-	public GestionnaireDeContact() {
+	public GestionnaireDeContact(Utilisateur user) {
 		this.contacts = new ArrayList<Contact>();
-		// set les contacts au contenu de la base de données
-		// créer une nouvelle instance de la dao, 
+		this.user = user;
 	}
 
 	public boolean ajouteContact(Contact contact) {
@@ -101,5 +101,15 @@ public class GestionnaireDeContact extends Observable{
 	public void setContacts(ArrayList<Contact> contacts) {
 		this.contacts = contacts;
 	}
+
+	public Utilisateur getUser() {
+		return user;
+	}
+
+	public void setUser(Utilisateur user) {
+		this.user = user;
+	}
+	
+	
 
 }

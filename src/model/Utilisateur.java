@@ -58,7 +58,7 @@ public class Utilisateur {
 	}
 	
 	public void login(Vue vue) {
-		this.gestionnaire = new GestionnaireDeContact();
+		this.gestionnaire = new GestionnaireDeContact(this);
 		this.dao = new DaoImplementationModel(this.gestionnaire, this, this.gestionnaireUser.getDao().getFactory());
 		
 		vue.lancerVueUser(gestionnaire, dao); // params

@@ -23,6 +23,7 @@ public class ControllerAjoutUser implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		// TODO Auto-generated method stub
 		Utilisateur user = new Utilisateur(this.vue.getTxtfieldNom().getText(), this.gestionnaire);
 		
