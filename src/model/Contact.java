@@ -34,7 +34,6 @@ public class Contact  {
 	@JoinColumn(name = "user_id")
 	private Utilisateur user;
 	
-	
 
 	public Contact() {
 	}

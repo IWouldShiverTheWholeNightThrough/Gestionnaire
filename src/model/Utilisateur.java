@@ -44,7 +44,12 @@ public class Utilisateur {
 	
 	@Transient
 	private DaoImplementationModel dao;
-
+	
+	
+	public Utilisateur() {
+		
+	}
+	
 	public Utilisateur(String name) {
 		this.name = name;
 		this.appareils = new ArrayList<Appareil>();

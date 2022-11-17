@@ -8,20 +8,6 @@ public class GestionnaireUtilisateurs {
 		this.users = new ArrayList<Utilisateur>();
 	}
 	
-	public void afficheUsers() {
-
-		if(this.users.size() == 0) {
-			System.out.println("Pas de users enregistrés");
-		} else {
-			System.out.println("Liste des Users:\n");
-			for(int i = 0;i< this.users.size(); i++) {
-				System.out.print("-> ");
-				System.out.println(users.get(i));
-			}
-		}
-		System.out.println();
-	}
-	
 	public boolean creerUser(Utilisateur user) {
 		if(this.rechercheUserparName(user) == -1) {
 			this.users.add(user);
