@@ -7,8 +7,18 @@ import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import controller.ControllerAjout;
+import controller.ControllerAjoutUser;
+import controller.ControllerParcourir;
+import controller.ControllerRecherche;
+import daoImplementation.DaoImplUser;
+import daoImplementation.DaoImplementationModel;
+import model.GestionnaireDeContact;
+import model.GestionnaireUtilisateurs;
 
 public class Vue {
 	private JFrame frame;
@@ -20,10 +30,11 @@ public class Vue {
 	private JButton buttonParcourir;
 	private MonJLabel labelResult;
 	private MonJPanel paneContact;
+	private MonJPanelUser paneUser;
 	private JPanel paneInput;
 	private byte[] image;
 
-	public void lancerVue() {
+	public void lancerVue(GestionnaireUtilisateurs gestionnaire, DaoImplUser dao) {
 		this.frame = new JFrame("Gestionnaire de Contacts");
 		this.frame.setLocation(500, 0);
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,7 +43,59 @@ public class Vue {
 		GridBagConstraints gBC = new GridBagConstraints();
 		gBC.fill = GridBagConstraints.HORIZONTAL;
 		
+		this.paneInput = new JPanel();
+		this.paneInput.setLayout(new GridBagLayout());
 		
+		JLabel label = new JLabel("Bienvenue dans le Gestionnaire de Contacts");
+		gBC.gridx = 0;
+        gBC.gridy = 0;
+		this.paneInput.add(label, gBC);
+
+		this.txtfieldNom = new JTextField("Entrez un user");
+		this.txtfieldNom.setColumns(20);
+		gBC.insets = new Insets(10,10,10,10);
+		gBC.gridx = 0;
+		gBC.gridy = 1;
+		this.paneInput.add(txtfieldNom, gBC);
+		
+		this.buttonAjout = new JButton("Créer un user");
+		gBC.gridx = 1;
+		gBC.gridy = 1;
+		this.paneInput.add(buttonAjout, gBC);
+		
+		this.paneUser = new MonJPanelUser(this);
+		this.paneUser.setLayout(new GridLayout(0,1));
+		
+		gBC.gridx = 0;
+		gBC.gridy = 0;
+		this.frame.getContentPane().add(this.paneInput, gBC);
+		gBC.gridx = 0;
+		gBC.gridy = 1;
+		this.frame.getContentPane().add(this.paneUser, gBC);
+
+		dao.addObserver(this.getPaneUser());
+		dao.notifyObservers();
+		
+		ControllerAjoutUser controllerAjoutUser = new ControllerAjoutUser(gestionnaire, this, dao);
+		this.getButtonAjout().addActionListener(controllerAjoutUser);
+		
+		this.getFrame().pack();
+		this.getFrame().setVisible(true);
+	}
+	
+
+	public void lancerVueUser(GestionnaireDeContact gestionnaire, DaoImplementationModel dao) {
+		
+		this.frame.getContentPane().removeAll();
+		
+		this.frame.setLocation(500, 0);
+		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		this.frame.setLayout(new GridBagLayout());
+		GridBagConstraints gBC = new GridBagConstraints();
+		gBC.fill = GridBagConstraints.HORIZONTAL;
+		
+		 
 		this.paneInput = new JPanel();
 		this.paneInput.setLayout(new GridBagLayout());
 
@@ -79,6 +142,25 @@ public class Vue {
 		gBC.gridx = 0;
 		gBC.gridy = 1;
 		this.frame.getContentPane().add(this.paneContact, gBC);
+		
+		ControllerAjout controllerAjout = new ControllerAjout(gestionnaire, this, dao);
+		this.getButtonAjout().addActionListener(controllerAjout);
+
+		ControllerRecherche controllerRecherche = new ControllerRecherche(gestionnaire, this, dao);
+		this.getButtonRecherche().addActionListener(controllerRecherche);
+		
+		ControllerParcourir controllerParcourir = new ControllerParcourir(gestionnaire, this, dao);
+		this.getButtonParcourir().addActionListener(controllerParcourir);
+		
+
+		gestionnaire.addObserver(this.getLabelResult());
+
+		dao.addObserver(this.getPaneContact());
+		dao.notifyObservers();
+		
+		
+		this.getFrame().pack();
+		this.getFrame().setVisible(true);
 	}
 
 	public JFrame getFrame() {
@@ -154,6 +236,11 @@ public class Vue {
 		this.image = image;
 	}
 
-	
-	
+	public MonJPanelUser getPaneUser() {
+		return paneUser;
+	}
+
+	public void setPaneUser(MonJPanelUser paneUser) {
+		this.paneUser = paneUser;
+	}
 }

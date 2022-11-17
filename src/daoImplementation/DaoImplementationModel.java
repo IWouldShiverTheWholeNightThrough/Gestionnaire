@@ -19,18 +19,14 @@ public class DaoImplementationModel extends Observable implements DaoModel {
 	private GestionnaireDeContact gestionnaire;
 	private SessionFactory factory;
 
-	public DaoImplementationModel(GestionnaireDeContact gestionnaire, Utilisateur user) {
+	public DaoImplementationModel(GestionnaireDeContact gestionnaire, Utilisateur user, SessionFactory factory) {
 		this.gestionnaire = gestionnaire;
-
+		this.factory = factory;
 		try {
-			this.factory = new Configuration().configure("hibernate.cfg.xml")
-					.addAnnotatedClass(Contact.class)
-					.addAnnotatedClass(Utilisateur.class)
-					.buildSessionFactory();
-			Session session = factory.getCurrentSession();
+		
+			Session session = this.factory.getCurrentSession();
 			session.beginTransaction();
-			Query query = session.createQuery("select c from Contact c", Contact.class);
-			// where user_id ='"+user.getId()+"'", Contact.class); à remettre pour la suite ...
+			Query query = session.createQuery("select c from Contact c where user_id ='"+user.getId()+"'", Contact.class);
 			List<Contact> contacts = query.getResultList();
 			for(Contact contact: contacts) {
 				this.gestionnaire.getContacts().add(contact);

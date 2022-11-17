@@ -1,11 +1,25 @@
 package model;
 import java.util.ArrayList;
 
+import controller.ControllerAjoutUser;
+import daoImplementation.DaoImplUser;
+import vue.Vue;
+
 public class GestionnaireUtilisateurs {
 	private ArrayList<Utilisateur> users;
+	private DaoImplUser dao;
+	private Vue vue;
 	
 	public GestionnaireUtilisateurs() {
 		this.users = new ArrayList<Utilisateur>();
+		
+		DaoImplUser dao = new DaoImplUser(this);
+		this.dao = dao;
+		
+		Vue vue = new Vue();
+		this.vue = vue;
+		this.vue.lancerVue(this, this.dao);
+		
 	}
 	
 	public boolean creerUser(Utilisateur user) {
@@ -38,4 +52,23 @@ public class GestionnaireUtilisateurs {
 	public void setUsers(ArrayList<Utilisateur> users) {
 		this.users = users;
 	}
+
+	public DaoImplUser getDao() {
+		return dao;
+	}
+
+	public void setDao(DaoImplUser dao) {
+		this.dao = dao;
+	}
+
+	public Vue getVue() {
+		return vue;
+	}
+
+	public void setVue(Vue vue) {
+		this.vue = vue;
+	}
+	
+	
+	
 }

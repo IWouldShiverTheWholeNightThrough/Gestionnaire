@@ -44,40 +44,24 @@ public class Utilisateur {
 	
 	@Transient
 	private DaoImplementationModel dao;
+
 	
 	
 	public Utilisateur() {
 		
 	}
 	
-	public Utilisateur(String name) {
+	public Utilisateur(String name, GestionnaireUtilisateurs gestUser) {
 		this.name = name;
+		this.gestionnaireUser = gestUser;
 		this.appareils = new ArrayList<Appareil>();
 	}
 	
-	public void login() {
+	public void login(Vue vue) {
 		this.gestionnaire = new GestionnaireDeContact();
-		this.dao = new DaoImplementationModel(this.gestionnaire, this);
-		Vue vue = new Vue();
-		vue.lancerVue();
+		this.dao = new DaoImplementationModel(this.gestionnaire, this, this.gestionnaireUser.getDao().getFactory());
 		
-		this.dao.addObserver(vue.getPaneContact());
-		this.dao.notifyObservers();
-
-		ControllerAjout controllerAjout = new ControllerAjout(this.gestionnaire, vue, this.dao);
-		vue.getButtonAjout().addActionListener(controllerAjout);
-
-		ControllerRecherche controllerRecherche = new ControllerRecherche(this.gestionnaire, vue, this.dao);
-		vue.getButtonRecherche().addActionListener(controllerRecherche);
-		
-		ControllerParcourir controllerParcourir = new ControllerParcourir(this.gestionnaire, vue, this.dao);
-		vue.getButtonParcourir().addActionListener(controllerParcourir);
-
-		this.gestionnaire.addObserver(vue.getLabelResult());
-
-		
-		vue.getFrame().pack();
-		vue.getFrame().setVisible(true);
+		vue.lancerVueUser(gestionnaire, dao); // params
 	}
 	
 
@@ -183,6 +167,7 @@ public class Utilisateur {
 	public void setContacts(List<Contact> contacts) {
 		this.contacts = contacts;
 	}
+
 
 
 }
