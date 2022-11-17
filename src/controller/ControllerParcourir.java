@@ -57,7 +57,7 @@ public class ControllerParcourir implements ActionListener{
 			String type = tab[tab.length -1];
 			
 			BufferedImage image = ImageIO.read(file); 
-			image = resize(image, 40);
+			image = resize(image, 30);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(image, type, baos);
 			byte[] bytes = baos.toByteArray();

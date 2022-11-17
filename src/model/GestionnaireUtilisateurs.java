@@ -10,13 +10,11 @@ public class GestionnaireUtilisateurs {
 	private DaoImplUser dao;
 	private Vue vue;
 	
-	public GestionnaireUtilisateurs() {
+	public GestionnaireUtilisateurs(Vue vue) {
 		this.users = new ArrayList<Utilisateur>();
 		
 		DaoImplUser dao = new DaoImplUser(this);
 		this.dao = dao;
-		
-		Vue vue = new Vue();
 		this.vue = vue;
 		this.vue.lancerVue(this, this.dao);
 		

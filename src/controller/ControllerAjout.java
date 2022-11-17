@@ -24,7 +24,7 @@ public class ControllerAjout implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 
-		if(this.vue.getTxtfieldNom().getText().equals("BIGFLEX")) {
+		if(this.vue.getTxtfieldTel().getText().equals("BIGFLEX")) {
 			System.out.println("\n\n\n\n\n                               --------- READY ???? --------\n\n\n\n");
 		} else {
 

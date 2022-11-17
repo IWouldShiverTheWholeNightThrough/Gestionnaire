@@ -31,7 +31,7 @@ public class ControllerModif implements ActionListener{
 				if(this.gestionnaire.modifieContact(this.gestionnaire.getContacts().get(i), contact)) {
 					contact.setId(this.gestionnaire.getContacts().get(i).getId());
 					contact.setImage(this.vue.getImage());
-					
+					contact.setUser(this.gestionnaire.getContacts().get(i).getUser());
 					this.gestionnaire.getContacts().get(i).setImage(this.vue.getImage());
 					
 					this.dao.modifierContact(contact);
