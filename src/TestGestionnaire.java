@@ -1,12 +1,18 @@
 import model.GestionnaireUtilisateurs;
-import model.Utilisateur;
+import game.SpaceInvader2;
 import vue.Vue;
 
+
+import javafx.application.Application;
 public class TestGestionnaire {
 
 	public static void main(String[] args) {
 		
-		new GestionnaireUtilisateurs(new Vue());
+		
+		Application.launch(SpaceInvader2.class,args);
+
+
+		//new GestionnaireUtilisateurs(new Vue());
 		
 	}
 }
