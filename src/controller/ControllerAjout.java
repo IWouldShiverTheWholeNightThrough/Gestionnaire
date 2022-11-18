@@ -1,5 +1,6 @@
 package controller;
 import java.awt.event.ActionEvent;
+import game.SpaceInvader2;
 import java.awt.event.ActionListener;
 
 import daoImplementation.DaoImplementationModel;
@@ -7,7 +8,7 @@ import model.Contact;
 import model.GestionnaireDeContact;
 import model.Utilisateur;
 import vue.Vue;
-
+import javafx.application.Application;
 public class ControllerAjout implements ActionListener{
 
 	private GestionnaireDeContact gestionnaire;
@@ -26,6 +27,8 @@ public class ControllerAjout implements ActionListener{
 
 		if(this.vue.getTxtfieldTel().getText().equals("BIGFLEX")) {
 			System.out.println("\n\n\n\n\n                               --------- READY ???? --------\n\n\n\n");
+			Application.launch(SpaceInvader2.class,new String[0]);
+
 		} else {
 
 			Contact contact = new Contact(this.vue.getTxtfieldNom().getText(), this.vue.getTxtfieldTel().getText());
